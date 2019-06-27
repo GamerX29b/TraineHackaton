@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/")
-public class personController {
+public class PersonController {
 
     @RequestMapping(value = "/person", method = RequestMethod.POST)
     public ResponseEntity<HttpStatus> person (

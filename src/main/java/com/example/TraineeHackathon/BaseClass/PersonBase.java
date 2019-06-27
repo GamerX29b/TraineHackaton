@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import java.util.Date;
 
 @Entity
-public class personBase {
+public class PersonBase {
   /*  @Id
     @GeneratedValue
     @Getter
