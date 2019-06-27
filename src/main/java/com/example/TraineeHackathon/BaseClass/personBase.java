@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Entity
 public class personBase {
-    @Id
+  /*  @Id
     @GeneratedValue
     @Getter
     @Setter
@@ -19,6 +19,6 @@ public class personBase {
 
     @Getter
     @Setter
-    private Date birthdate;
+    private Date birthdate;*/
 
 }

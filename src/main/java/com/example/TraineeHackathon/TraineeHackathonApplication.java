@@ -9,5 +9,9 @@ public class TraineeHackathonApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TraineeHackathonApplication.class, args);
 	}
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(SpringBootWebJspApplication.class);
+	}
 
 }
