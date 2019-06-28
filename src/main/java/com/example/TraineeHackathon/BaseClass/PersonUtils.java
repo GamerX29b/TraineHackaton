@@ -12,11 +12,11 @@ public class PersonUtils {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
-    PersonRepository repository;
+    PersonRepository PersonRepository;
 
     public void personSave (Long id, String name, Date birthdate){
 
-        logger.info("Inserting -> {}", repository.save(new PersonBase(id, name, birthdate)));
+        logger.info("Inserting -> {}", PersonRepository.save(new PersonBase(id, name, birthdate)));
     }
 
 
