@@ -48,4 +48,7 @@ public class PersonBase {
         this.birthdate = birthdate;
     }
 
+    public PersonBase() {
+
+    }
 }

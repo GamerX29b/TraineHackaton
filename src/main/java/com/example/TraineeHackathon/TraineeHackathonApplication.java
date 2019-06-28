@@ -9,11 +9,12 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 @SpringBootApplication
 public class TraineeHackathonApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(TraineeHackathonApplication.class, args);
-	}
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(TraineeHackathonApplication.class);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(TraineeHackathonApplication.class, args);
+    }
+
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(TraineeHackathonApplication.class);
+    }
 
 }
