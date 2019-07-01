@@ -7,7 +7,6 @@ import javax.persistence.*;
 public class CarBase {
 
     @Id
-    @GeneratedValue
     @Column(name = "id")
     private long id;
 

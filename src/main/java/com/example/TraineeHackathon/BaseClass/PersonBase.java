@@ -8,7 +8,6 @@ import java.util.Date;
 public class PersonBase {
 
     @Id
-    @GeneratedValue
     @Column(name = "id")
     private long id;
 
