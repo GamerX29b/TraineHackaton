@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name ="person")
+@Table(name = "person")
 public class PersonBase {
 
     @Id
@@ -48,6 +48,5 @@ public class PersonBase {
     }
 
     public PersonBase() {
-
     }
 }

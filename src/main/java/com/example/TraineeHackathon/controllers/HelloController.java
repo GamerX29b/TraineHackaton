@@ -11,7 +11,6 @@ public class HelloController {
     @RequestMapping(value = "/")
     public ModelAndView hello () {
         ModelAndView mv = new ModelAndView("HelloPage");
-        System.out.println("Newer");
         return mv;
     }
 }

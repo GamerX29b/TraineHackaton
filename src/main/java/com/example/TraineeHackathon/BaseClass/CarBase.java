@@ -17,7 +17,14 @@ public class CarBase {
     private int horsepower;
 
     @Column(name = "ownerId")
-    private int ownerId;
+    private Long ownerId;
+
+    public CarBase (Long id, String model, Integer horsepower, Long ownerId){
+        this.id = id;
+        this.model = model;
+        this.horsepower = horsepower;
+        this.ownerId = ownerId;
+    }
 
     public long getId() {
         return id;
@@ -43,11 +50,15 @@ public class CarBase {
         this.horsepower = horsepower;
     }
 
-    public int getOwnerId() {
+    public Long getOwnerId() {
         return ownerId;
     }
 
-    public void setOwnerId(int ownerId) {
+    public void setOwnerId(Long ownerId) {
         this.ownerId = ownerId;
+    }
+
+    public CarBase(){
+
     }
 }
