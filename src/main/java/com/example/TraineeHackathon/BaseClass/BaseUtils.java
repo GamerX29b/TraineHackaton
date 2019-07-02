@@ -113,8 +113,12 @@ public class BaseUtils {
 
         statistics.setPersoncount(personRepository.count());
         statistics.setCarcount(carRepository.count());
-        statistics.setUniclevendercount(vendorRepository.count(unicleVendor));
+     //   statistics.setUniclevendercount(vendorRepository.);
 
         return statistics;
+    }
+    public void clearAll(){
+        carRepository.deleteAll();
+        personRepository.deleteAll();
     }
 }

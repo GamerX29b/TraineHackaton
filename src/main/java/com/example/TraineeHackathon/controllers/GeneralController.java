@@ -106,6 +106,14 @@ public class GeneralController {
         baseUtils.carSave(car.getId(), car.getModel(), car.getHorsepower(), car.getOwnerId());
         return ResponseEntity.ok(HttpStatus.OK);
     }
+    @RequestMapping(value = "/clear.html")
+    public Object clearAll()
+        {
+            baseUtils.clearAll();
+            return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+
 
     @ResponseBody
     public JsonResponse addPerson(@RequestBody Person person) {
