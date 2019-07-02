@@ -74,7 +74,6 @@ public class GeneralController {
         try {
             car = gson.fromJson(json, Car.class);
         } catch (JsonSyntaxException e) {
-            System.out.println("Ашипка валидации, всё хуйня, давай по новой");
             return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
         }
         //Проверка правильного написания модели
@@ -84,7 +83,6 @@ public class GeneralController {
             if (model.charAt(i) == '-') {
                 defis++;
                 if (defis != 1) {
-                    System.out.println("Пiшёв ти нахуй!");
                     return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
                 }
             }

@@ -1,7 +1,11 @@
 package com.example.TraineeHackathon.BaseClass;
 
 import com.example.TraineeHackathon.Classes.Person;
+import com.example.TraineeHackathon.Classes.Statistics;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 
@@ -31,8 +35,30 @@ public class BaseUtils {
         }
     }
 
+    public List carsThisPerson (Long idPerson){
+
+        CarBase carBase = new CarBase();
+        carBase.setOwnerId(idPerson);
+
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withIgnorePaths("id")
+                .withIgnorePaths("model")
+                .withIgnorePaths("horsepower");
+
+        Example<CarBase> example = Example.of(carBase, matcher);
+
+        List carList = carRepository.findAll(example);
+
+
+
+        return carList;
+    }
+
     public void carSave(Long id, String model, Integer horsepower, Long ownerId) {
-        carRepository.save(new CarBase(id, model, horsepower, ownerId));
+
+
+
+       // carRepository.save(new CarBase(id, model, horsepower, ownerId));
     }
 
     public Person retunPerson(Long id) {
@@ -50,4 +76,24 @@ public class BaseUtils {
         return person;
     }
 
+    public Statistics returnStatistics (){
+        Statistics statistics = new Statistics();
+        CarBase carBase = new CarBase();
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withIgnorePaths("id")
+                .withIgnorePaths("horsepower")
+                .withIgnorePaths("ownerId");
+
+
+        Example<CarBase> unicleVendor = Example.of(carBase, matcher);
+
+        List unicleModel = carRepository.findAll(unicleVendor);
+
+
+        statistics.setPersoncount(personRepository.count());
+        statistics.setCarcount(carRepository.count());
+
+
+        return statistics;
+    }
 }
