@@ -107,14 +107,11 @@ public class GeneralController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
     @RequestMapping(value = "/clear.html")
-    public Object clearAll()
+    public ResponseEntity clearAll()
         {
             baseUtils.clearAll();
             return ResponseEntity.ok(HttpStatus.OK);
     }
-
-
-
     @ResponseBody
     public JsonResponse addPerson(@RequestBody Person person) {
         return new JsonResponse("OK", "");
