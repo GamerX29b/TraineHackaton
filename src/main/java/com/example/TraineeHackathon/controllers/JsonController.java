@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 
@@ -30,25 +32,27 @@ public class JsonController {
 
         Person person = baseUtils.retunPerson(personid);
 
-        if (person == null){
+        if (person == null) {
             return ResponseEntity.notFound().build();
         }
 
         List list = baseUtils.carsThisPerson(personid);
 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+
         PersonWithCars personWithCars = new PersonWithCars();
         personWithCars.setId(person.getId());
-        personWithCars.setBirthdate(person.getBirthdate());
+        personWithCars.setBirthdate(dateFormat.format(person.getBirthdate()));
         personWithCars.setName(person.getName());
         personWithCars.setCars(list);
 
         return personWithCars;
     }
+
     @RequestMapping(value = "/statistics.html", method = RequestMethod.GET)
     public @ResponseBody
     Object json() {
         Statistics statistics = new Statistics();
-
 
 
         return statistics;

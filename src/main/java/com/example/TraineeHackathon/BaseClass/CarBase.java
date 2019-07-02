@@ -21,8 +21,7 @@ public class CarBase {
 
     @OneToMany(
             cascade = CascadeType.ALL)
-    @JoinTable(name = "model")
-    private List<ModelBase> modelBase;
+    private List<ModelBase> modelBase = new ArrayList<>();
 
     public List<ModelBase> getModelBase() {
         return modelBase;

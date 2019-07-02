@@ -1,13 +1,11 @@
 package com.example.TraineeHackathon.Classes;
 
-import java.lang.reflect.Array;
-import java.util.Date;
 import java.util.List;
 
 public class PersonWithCars {
     Long id;
     String name;
-    Date birthdate;
+    String birthdate;
     List Cars;
 
     public Long getId() {
@@ -26,11 +24,11 @@ public class PersonWithCars {
         this.name = name;
     }
 
-    public Date getBirthdate() {
+    public String getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(Date birthdate) {
+    public void setBirthdate(String birthdate) {
         this.birthdate = birthdate;
     }
 

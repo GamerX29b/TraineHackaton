@@ -1,6 +1,7 @@
 package com.example.TraineeHackathon.BaseClass;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,8 +21,7 @@ public class ModelBase {
 
     @OneToMany(
             cascade = CascadeType.ALL)
-    @JoinTable(name="vendor")
-    private List<VendorBase> vendorBases;
+    private List<VendorBase> vendorBases = new ArrayList<>();
 
 
     public List<VendorBase> getVendorBases() {
