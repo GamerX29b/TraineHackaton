@@ -5,7 +5,6 @@ import com.example.TraineeHackathon.Classes.Statistics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 
@@ -56,9 +55,21 @@ public class BaseUtils {
 
     public void carSave(Long id, String model, Integer horsepower, Long ownerId) {
 
+        VendorBase vendorBase = new VendorBase();
+        ModelBase modelBase = new ModelBase();
 
+        vendorBase.setVendor("RollsRoys");
+        List<VendorBase> vendorList = new ArrayList<>();
 
-       // carRepository.save(new CarBase(id, model, horsepower, ownerId));
+        vendorList.add(vendorBase);
+
+        modelBase.setModel("Comet");
+        modelBase.setVendorBases(vendorList);
+
+        List<ModelBase> modelList = new ArrayList<>();
+        modelList.add(modelBase);
+
+        carRepository.save(new CarBase(id, modelList, horsepower, ownerId));
     }
 
     public Person retunPerson(Long id) {
