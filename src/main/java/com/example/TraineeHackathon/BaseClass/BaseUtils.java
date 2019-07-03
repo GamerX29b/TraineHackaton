@@ -6,11 +6,10 @@ import com.example.TraineeHackathon.Classes.Statistics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
 
 
+import javax.validation.constraints.Null;
 import java.util.*;
 
 @Component
@@ -24,14 +23,17 @@ public class BaseUtils {
     @Autowired
     VendorRepository vendorRepository;
 
+    @Autowired
+    ModelRepository modelRepository;
+
     //Добавление персоны
     public void personSave(Long id, String name, Date birthdate) {
 
         personRepository.save(new PersonBase(id, name, birthdate));
     }
 
-    //валидаторы существования ID машины
-    public boolean idValidate(Long id) {
+    //валидаторы существования ID человека
+    public boolean idPersonValidate(Long id) {
 
         Optional nullTest = personRepository.findById(id);
 
@@ -42,6 +44,17 @@ public class BaseUtils {
         }
     }
 
+    //валидаторы существования ID машины
+    public boolean idCarValidate(Long id) {
+
+        Optional nullTest = carRepository.findById(id);
+
+        if (nullTest.equals(Optional.empty())) {
+            return false;
+        } else {
+            return true;
+        }
+    }
     //Получить информацию о машине персоны
     public List carsThisPerson(Long idPerson) {
 
@@ -64,7 +77,7 @@ public class BaseUtils {
             ModelBase bufferModel = bufferCar.getModelBase().get(0);
             VendorBase vendorBase = bufferModel.getVendorBases().get(0);
             car.setId(bufferCar.getId());
-            car.setModel(vendorBase.getVendor() + "-" + bufferModel.getModel());
+            car.setModel(vendorBase.getVendorName() + "-" + bufferModel.getModel());
             car.setHorsepower(bufferCar.getHorsepower());
             car.setOwnerId(bufferCar.getOwnerId());
             carList.add(car);
@@ -78,7 +91,7 @@ public class BaseUtils {
         String modelName = model.substring(model.indexOf('-') + 1);
         VendorBase vendorBase = new VendorBase();
         ModelBase modelBase = new ModelBase();
-        vendorBase.setVendor(vendor);
+        vendorBase.setVendorName(vendor);
         List<VendorBase> vendorList = new ArrayList<>();
         vendorList.add(vendorBase);
         modelBase.setModel(modelName);
@@ -107,12 +120,14 @@ public class BaseUtils {
         Statistics statistics = new Statistics();
         statistics.setPersoncount(personRepository.count());
         statistics.setCarcount(carRepository.count());
-        statistics.setUniclevendercount(vendorRepository.countDistinctVendorBy());
+        statistics.setUniclevendercount(vendorRepository.countDistinctVendorNameBy());
         return statistics;
     }
 
     public void clearAll() {
         carRepository.deleteAll();
         personRepository.deleteAll();
+        modelRepository.deleteAll();
+        vendorRepository.deleteAll();
     }
 }

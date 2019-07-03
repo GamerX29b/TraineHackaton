@@ -3,7 +3,6 @@ package com.example.TraineeHackathon.controllers;
 
 import com.example.TraineeHackathon.BaseClass.BaseUtils;
 import com.example.TraineeHackathon.Classes.Car;
-import com.example.TraineeHackathon.Classes.JsonResponse;
 import com.example.TraineeHackathon.Classes.Person;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -46,16 +45,16 @@ public class GeneralController {
             return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
         }
 
-        if (baseUtils.idValidate(person.getId()))                          //проверка на то, что такого айдишника нет
-        {
-            return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST); //вернуть конкретную ошибку валидации?
-        }
-        Date date = new Date();
-        if (!(person.getBirthdate().before(date)))                        //проверка на прошедшую дату
+        if (baseUtils.idPersonValidate(person.getId()))                //проверка на то, что человек есть
         {
             return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
         }
-        //Сюда добавить валидаторы
+
+        Date date = new Date();
+        if (!(person.getBirthdate().before(date)))                     //проверка на прошедшую дату
+        {
+            return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
+        }
 
         baseUtils.personSave(person.getId(), person.getName(), person.getBirthdate());
 
@@ -76,6 +75,16 @@ public class GeneralController {
         } catch (JsonSyntaxException e) {
             return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
         }
+        //проверка на наличие ID в базе
+        Person person = baseUtils.retunPerson(car.getOwnerId());
+        if (person == null) {
+            return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
+        }
+        //проверка на то, что такого айдишника машины нет
+        if (baseUtils.idCarValidate(car.getId()))
+        {
+            return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
+        }
         //Проверка правильного написания модели
         String model = car.getModel();
         int defis = 0;
@@ -90,11 +99,7 @@ public class GeneralController {
         if (!(car.getHorsepower() > 0)) {                                    //проверка на ЛС
             return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
         }
-        //проверка на наличие ID в базе
-        Person person = baseUtils.retunPerson(car.getOwnerId());
-        if (person == null) {
-            return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
-        }
+
         //Угадайте сколько милисекунд в 18 годах или проверка на возраст
         GregorianCalendar thisCalendar = new GregorianCalendar();
         GregorianCalendar birthdatePerson = new GregorianCalendar();
@@ -112,9 +117,4 @@ public class GeneralController {
             baseUtils.clearAll();
             return ResponseEntity.ok(HttpStatus.OK);
     }
-    @ResponseBody
-    public JsonResponse addPerson(@RequestBody Person person) {
-        return new JsonResponse("OK", "");
-    }
-
 }

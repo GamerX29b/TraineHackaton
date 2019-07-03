@@ -12,8 +12,8 @@ public class VendorBase {
     @Column(name = "id")
     private long id;
 
-    @Column(name = "vendor")
-    private String vendor;
+    @Column(name = "vendorName")
+    private String vendorName;
 
     @ManyToOne
     private ModelBase modelBase;
@@ -26,12 +26,12 @@ public class VendorBase {
         this.id = id;
     }
 
-    public String getVendor() {
-        return vendor;
+    public String getVendorName() {
+        return vendorName;
     }
 
-    public void setVendor(String vendor) {
-        this.vendor = vendor;
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
     }
 
 }

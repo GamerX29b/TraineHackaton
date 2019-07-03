@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 interface VendorRepository extends JpaRepository<VendorBase, Long> {
-    Long countDistinctVendorBy();
+   Long countDistinctVendorNameBy();
 }
