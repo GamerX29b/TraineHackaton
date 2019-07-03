@@ -6,6 +6,8 @@ import com.example.TraineeHackathon.Classes.Statistics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
 
 
@@ -103,21 +105,13 @@ public class BaseUtils {
     //Вернуть статистику
     public Statistics returnStatistics() {
         Statistics statistics = new Statistics();
-        VendorBase vendorBase = new VendorBase();
-        ExampleMatcher matcher = ExampleMatcher.matching()
-                .withIgnorePaths("id");
-
-
-        Example<VendorBase> unicleVendor = Example.of(vendorBase, matcher);
-
-
         statistics.setPersoncount(personRepository.count());
         statistics.setCarcount(carRepository.count());
-     //   statistics.setUniclevendercount(vendorRepository.);
-
+        statistics.setUniclevendercount(vendorRepository.countDistinctVendorBy());
         return statistics;
     }
-    public void clearAll(){
+
+    public void clearAll() {
         carRepository.deleteAll();
         personRepository.deleteAll();
     }

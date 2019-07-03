@@ -54,6 +54,7 @@ public class JsonController {
     Object json() {
         Statistics statistics = new Statistics();
 
+        statistics = baseUtils.returnStatistics();
 
         return statistics;
     }
