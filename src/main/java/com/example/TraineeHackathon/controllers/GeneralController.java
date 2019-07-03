@@ -109,12 +109,12 @@ public class GeneralController {
             return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
         }
         baseUtils.carSave(car.getId(), car.getModel(), car.getHorsepower(), car.getOwnerId());
-        return ResponseEntity.ok(HttpStatus.OK);
+        return ResponseEntity.ok().build();
     }
     @RequestMapping(value = "/clear.html")
     public ResponseEntity clearAll()
         {
             baseUtils.clearAll();
-            return ResponseEntity.ok(HttpStatus.OK);
+            return ResponseEntity.ok().build();
     }
 }
