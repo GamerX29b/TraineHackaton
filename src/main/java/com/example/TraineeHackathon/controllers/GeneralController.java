@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -27,33 +29,51 @@ public class GeneralController {
         this.baseUtils = baseUtils;
     }
 
-    @RequestMapping(value = "/person.html", method = RequestMethod.POST)
+    @RequestMapping(value = "/person", method = RequestMethod.POST)
     public ResponseEntity person(
             @RequestBody String json
     ) {
         Gson gson = new GsonBuilder()
                 .setDateFormat("dd.MM.yyyy").create();
 
-        Person person;
-        try {
-            person = gson.fromJson(json, Person.class);       //проверка на ошибки валидации
-        } catch (JsonSyntaxException e) {
-            return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
+        Person person = new Person();
+        if (json != null) {
+            int i = json.length();
+            char[] characters = new char[10];
+            json.getChars(i-12, i-2, characters,0);
+            String wtf = String.valueOf(characters);
+
+            SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+            df.setLenient(false);
+           try { Date date = df.parse(wtf);
+               System.out.println(date);
+           }catch (ParseException e) {return ResponseEntity.badRequest().build();}
+
+
+            if (json.charAt(i-7) != '.' || json.charAt(i-10) != '.'){
+                return ResponseEntity.badRequest().build();
+            }
         }
 
-        if (!(person.getBirthdate() != null && person.getName() != null)) {
-            return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
+        try {
+            person = gson.fromJson(json, Person.class);               //проверка на ошибки валидации
+        } catch (JsonSyntaxException e) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        if (person.getBirthdate() == null || person.getName() == null || person.getId() == 0) {
+            return ResponseEntity.badRequest().build();
         }
 
         if (baseUtils.idPersonValidate(person.getId()))                //проверка на то, что человек есть
         {
-            return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().build();
         }
 
         Date date = new Date();
         if (!(person.getBirthdate().before(date)))                     //проверка на прошедшую дату
         {
-            return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().build();
         }
 
         baseUtils.personSave(person.getId(), person.getName(), person.getBirthdate());
@@ -62,7 +82,7 @@ public class GeneralController {
 
     }
 
-    @RequestMapping(value = "/car.html", method = RequestMethod.POST)
+    @RequestMapping(value = "/car", method = RequestMethod.POST)
     public ResponseEntity car(
             @RequestBody String json
     ) {
@@ -73,31 +93,39 @@ public class GeneralController {
         try {
             car = gson.fromJson(json, Car.class);
         } catch (JsonSyntaxException e) {
-            return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().build();
         }
+            if (car.getModel() == null){
+                return ResponseEntity.badRequest().build();
+            }
+        if (car.getHorsepower() == null){
+            return ResponseEntity.badRequest().build();
+        }
+
+        if (car.getModel().equals("")
+                || car.getHorsepower() == 0
+                || car.getId() == 0
+                || car.getOwnerId() == 0) {
+            return ResponseEntity.badRequest().build();
+        }
+
         //проверка на наличие ID в базе
         Person person = baseUtils.retunPerson(car.getOwnerId());
         if (person == null) {
-            return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().build();
         }
         //проверка на то, что такого айдишника машины нет
         if (baseUtils.idCarValidate(car.getId()))
         {
-            return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().build();
         }
         //Проверка правильного написания модели
-        String model = car.getModel();
-        int defis = 0;
-        for (int i = 0; i < model.length(); i++)
-            if (model.charAt(i) == '-') {
-                defis++;
-                if (defis != 1) {
-                    return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
-                }
-            }
+        if (car.getModel().charAt(0)== '-'){
+                    return ResponseEntity.badRequest().build();
+        }
         //У машины есть мотор
         if (!(car.getHorsepower() > 0)) {                                    //проверка на ЛС
-            return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().build();
         }
 
         //Угадайте сколько милисекунд в 18 годах или проверка на возраст
@@ -106,12 +134,12 @@ public class GeneralController {
         birthdatePerson.setTime(person.getBirthdate());
         Long milisecond = thisCalendar.getTimeInMillis() - birthdatePerson.getTimeInMillis();
         if (milisecond < 567648000000L) {
-            return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().build();
         }
         baseUtils.carSave(car.getId(), car.getModel(), car.getHorsepower(), car.getOwnerId());
         return ResponseEntity.ok().build();
     }
-    @RequestMapping(value = "/clear.html")
+    @RequestMapping(value = "/clear")
     public ResponseEntity clearAll()
         {
             baseUtils.clearAll();

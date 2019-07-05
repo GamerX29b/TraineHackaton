@@ -3,7 +3,7 @@ package com.example.TraineeHackathon.Classes;
 public class Statistics {
     Long personcount;
     Long carcount;
-    Long uniclevendercount;
+    Long uniquevendorcount;
 
     public Long getPersoncount() {
         return personcount;
@@ -21,11 +21,11 @@ public class Statistics {
         this.carcount = carcount;
     }
 
-    public Long getUniclevendercount() {
-        return uniclevendercount;
+    public Long getUniquevendorcount() {
+        return uniquevendorcount;
     }
 
-    public void setUniclevendercount(Long uniclevendercount) {
-        this.uniclevendercount = uniclevendercount;
+    public void setUniquevendorcount(Long uniquevendorcount) {
+        this.uniquevendorcount = uniquevendorcount;
     }
 }

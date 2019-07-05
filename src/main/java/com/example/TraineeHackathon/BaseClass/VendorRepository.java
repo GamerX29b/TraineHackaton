@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 interface VendorRepository extends JpaRepository<VendorBase, Long> {
-    @Query(value = "SELECT COUNT (DISTINCT VENDOR_NAME) FROM VendorBase")
+    @Query(value = "SELECT COUNT (DISTINCT (UPPER(VENDOR_NAME))) FROM Vendor", nativeQuery = true)
    Long countDistinctVendorNameBy();
 }

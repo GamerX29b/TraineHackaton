@@ -9,7 +9,6 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Component;
 
 
-import javax.validation.constraints.Null;
 import java.util.*;
 
 @Component
@@ -100,7 +99,7 @@ public class BaseUtils {
         modelList.add(modelBase);
         carRepository.save(new CarBase(id, modelList, horsepower, ownerId));
     }
-
+    //извлечение персоны из базы
     public Person retunPerson(Long id) {
         Person person = new Person();
         PersonBase personBase;
@@ -120,10 +119,10 @@ public class BaseUtils {
         Statistics statistics = new Statistics();
         statistics.setPersoncount(personRepository.count());
         statistics.setCarcount(carRepository.count());
-        statistics.setUniclevendercount(vendorRepository.countDistinctVendorNameBy());
+        statistics.setUniquevendorcount(vendorRepository.countDistinctVendorNameBy());
         return statistics;
     }
-
+    //удалить всё
     public void clearAll() {
         carRepository.deleteAll();
         personRepository.deleteAll();

@@ -24,7 +24,7 @@ public class JsonController {
         this.baseUtils = baseUtils;
     }
 
-    @RequestMapping(value = "/personwithcars.html", method = RequestMethod.GET)
+    @RequestMapping(value = "/personwithcars", method = RequestMethod.GET)
     public @ResponseBody
     Object json(@RequestParam final Long personid) {
         Person person = baseUtils.retunPerson(personid);
@@ -33,21 +33,21 @@ public class JsonController {
             return ResponseEntity.notFound().build();
         }
         List list = baseUtils.carsThisPerson(personid);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy"); //передача данных в нужном формате
         PersonWithCars personWithCars = new PersonWithCars();
         personWithCars.setId(person.getId());
         personWithCars.setBirthdate(dateFormat.format(person.getBirthdate()));
         personWithCars.setName(person.getName());
         personWithCars.setCars(list);
-        if(list.size()<1){
-            return ResponseEntity.badRequest().build();
-        }
+       // if(list.size()<1){
+         //   return ResponseEntity.badRequest().build();
+       // }
 
 
         return personWithCars;
     }
 
-    @RequestMapping(value = "/statistics.html", method = RequestMethod.GET)
+    @RequestMapping(value = "/statistics", method = RequestMethod.GET)
     public @ResponseBody
     Object json() {
         Statistics statistics = baseUtils.returnStatistics();
